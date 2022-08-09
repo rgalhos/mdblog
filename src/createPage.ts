@@ -37,7 +37,7 @@ export function createPage(fileDesc: IFileDescription): void {
     writeFileSync(path.join(process.env.HTML_FILES_PATH, fileDesc.filename + '.html'), html, { encoding: 'utf-8' });
 }
 
-function extractMetadata(markdownContent: string): {
+export function extractMetadata(markdownContent: string): {
     pageTitle: string | null;
     metaTags: Dictionary<{ content: string; type: 'name' | 'property' }>;
 } {
