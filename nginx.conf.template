@@ -1,0 +1,17 @@
+server {
+    server_name md-files.domain.tld;
+
+    access_log /var/www/md-files.domain.tld/logs/access.log;
+    error_log /var/www/md-files.domain.tld/logs/error.log;
+
+    root /home/user/md-files/html_pages;
+
+    location / {
+        try_file $uri =404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}

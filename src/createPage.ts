@@ -1,0 +1,78 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import Handlebars from 'handlebars';
+import type { IFileDescription } from './interfaces/IFileDescription';
+import type { ITemplateContext } from './interfaces/ITemplateContext';
+import { getEditHistory } from './history';
+import { makeHtml } from './makeHtml';
+import { project } from './utils';
+import './hbs-helpers';
+
+const template = Handlebars.compile(readFileSync('./template.hbs').toString('utf-8'));
+
+export function createPage(fileDesc: IFileDescription): void {
+    const renderStartTime = +Date.now();
+    const markdownContent = readFileSync(fileDesc.path).toString('utf-8');
+
+    const extractedMetadata = extractMetadata(markdownContent);
+    const metaTags = Object.entries(extractedMetadata.metaTags)
+        .map(([name, { content, type }]) => `<meta ${type}="${name}" content="${content}" />`)
+        .join('\n');
+
+    const context: ITemplateContext = {
+        pageTitle: extractedMetadata.pageTitle ?? fileDesc.basename,
+        file: fileDesc,
+        metaTags: metaTags,
+        markdownContent: makeHtml(markdownContent),
+        editHistory: getEditHistory(fileDesc.path).map((entry) =>
+            project(entry, ['filename', 'size', 'md5sum', 'mtime'])
+        ),
+        renderStartTime: renderStartTime,
+        stringifiedFileInfo: JSON.stringify(project(fileDesc, ['filename', 'basename', 'size', 'md5sum', 'mtime'])),
+        ...getEnvVariables(),
+    };
+
+    const html = template(context);
+
+    writeFileSync(path.join(process.env.HTML_FILES_PATH, fileDesc.filename + '.html'), html, { encoding: 'utf-8' });
+}
+
+function extractMetadata(markdownContent: string): {
+    pageTitle: string | null;
+    metaTags: Dictionary<{ content: string; type: 'name' | 'property' }>;
+} {
+    //#region <meta name> tags
+    const metaTags: Dictionary<{ content: string; type: 'name' | 'property' }> = {};
+    const matchedMetaTags = markdownContent.match(/^\s*\{\{\s*meta(-property)?\s+[\w:]+\s*=\s*.+?\s*\}\}$/gm) || [];
+    const parsedMetaTags = matchedMetaTags.map(
+        (tag) =>
+            tag.match(/^\s*\{\{\s*meta(?:-(?<type>property))?\s+(?<tag>[\w:]+)\s*=\s*(?<content>.+?)\s*\}\}$/)
+                ?.groups || {}
+    );
+
+    for (const { type, tag, content } of parsedMetaTags) {
+        if (!tag || !content) continue;
+
+        metaTags[tag] = {
+            content: content.replace(/"/g, '&quot;'),
+            type: type === 'property' ? 'property' : 'name',
+        };
+    }
+    //#endregion <meta name> tags
+
+    //#region page title
+    const pageTitle = markdownContent?.match(/^\s*\{\{\s*title\s+(.+?)\s*\}\}$/m)?.[1] || null;
+    //#endregion page title
+
+    return { metaTags, pageTitle };
+}
+
+function getEnvVariables(): Dictionary<string> {
+    const envVars: Dictionary<string> = {};
+    const allVars = Object.entries(process.env).filter(([k, v]) => k.startsWith('PUBLICENV_') && !!v);
+    for (const [k, v] of allVars) {
+        const key = 'ENV_' + k.slice('PUBLICENV_'.length);
+        envVars[key] = v as string;
+    }
+    return envVars;
+}

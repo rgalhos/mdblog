@@ -1,0 +1,15 @@
+/dist
+/node_modules
+/html_pages
+/md_files
+/saved_files
+
+history.json
+
+.env
+*.env
+.env.*
+*.env.*
+!.env.template
+
+*.conf

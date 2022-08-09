@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="{{ ENV_HTML_LANG }}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="robots" content="{{ ENV_ROBOTS }}" />
+        <meta name="viewport" content="width=device-width"/>
+        {{{ metaTags }}}
+        <link rel="stylesheet" href="/public/_styles.css" />
+        <script src="/public/_scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <title>{{ pageTitle }}</title>
+        <script type="text/javascript">
+window['fileInfo'] = {{{ stringifiedFileInfo }}};
+
+window['editHistory'] = {{{ jsonStringify editHistory }}};
+        </script>
+    </head>
+    <body>
+        <div class="header-bar">
+            <div class="centered">
+                <h2>{{ file.basename }}</h2>
+            </div>
+        </div>
+        <div id="scroll-observer"></div>
+
+        <div class="content">
+            <article class="markdown article-container" id="!main">
+                {{{ markdownContent }}}
+            </article>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div>
+                    <ul>
+                        <li class="flex-gap">
+                            <strong>{{ file.basename }}</strong>
+                            <span style="color: var(--primary);">●</span>
+                            <span>{{ file.size }} bytes</span>
+                        </li>
+                        <li>
+                            <code class="colored-hash" data-hash="{{ file.md5sum }}">
+                                {{ file.md5sum }}
+                            </code>
+                        </li>
+                        <li>
+                            <em data-time="{{ file.mtime }}">
+                                {{ dateFallback file.mtime }}
+                            </em>
+                        </li>
+                        <li>Rendered in <em>~{{ calculateRenderTime renderStartTime }} seconds</em></li>
+                        <li>
+                            <a href="/raw/{{ file.md5sum }}/{{ file.filename }}.md">View RAW</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="edit-history">
+                        <li>
+                            <strong>{{ editHistory.length }}</strong> edits
+                        </li>
+                        {{#each editHistory}}
+                        <li>
+                            <a href="/raw/{{ this.md5sum }}/{{ this.filename }}.md">
+                                <code class="colored-hash" data-hash="{{ this.md5sum }}">
+                                    {{ this.md5sum }}
+                                </code>
+                                <span style="color: var(--primary);">●</span>
+                                <span data-time="{{ this.mtime }}">
+                                    {{ dateFallback this.mtime }}
+                                </span>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

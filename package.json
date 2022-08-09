@@ -1,0 +1,31 @@
+{
+    "name": "mdblog",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "DOTENV_CONFIG_ENCODING=utf-8 NODE_ENV=production node -r dotenv/config ./dist dotenv_config_path=.env",
+        "dev": "DOTENV_CONFIG_ENCODING=utf-8 NODE_ENV=development node -r dotenv/config ./dist dotenv_config_path=.env.development",
+        "lint": "eslint ./src",
+        "build": "tsc -p ."
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "chokidar": "^3.5.3",
+        "dotenv": "^16.0.1",
+        "handlebars": "^4.7.7",
+        "showdown": "^2.1.0"
+    },
+    "devDependencies": {
+        "@types/dotenv": "^8.2.0",
+        "@types/node": "^18.6.4",
+        "@types/showdown": "^2.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.32.0",
+        "@typescript-eslint/parser": "^5.32.0",
+        "eslint": "^8.21.0",
+        "typescript": "^4.7.4"
+    }
+}
