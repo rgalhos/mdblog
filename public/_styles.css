@@ -81,6 +81,33 @@ a:hover {
 
 .content {
     min-height: 100vh;
+    max-width: 100vw;
+}
+
+@media only screen and (max-width: 768px) {
+    .content {
+        padding: 24px;
+        margin: 0 auto;
+    }
+
+    article iframe,
+    article img,
+    article video {
+        max-width: calc(100vw - 48px);
+    }
+
+    .footer-container div {
+        margin: 0 24px;
+    }
+
+    .footer-container ul.edit-history li a {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .footer-container ul.edit-history li a code + span {
+        display: none;
+    }
 }
 
 .article-container {
@@ -162,7 +189,6 @@ footer {
 
 .footer-container ul.edit-history {
     max-height: 11.5em;
-    padding: 0 10px;
     overflow: auto;
 }
 
@@ -178,7 +204,7 @@ footer {
 
 .footer-container ul.edit-history li:not(:first-child) {
     line-height: 2rem;
-    margin-left: 2.5ch;
+    margin-left: 2.6ch;
     list-style-type: hyperlink;
 }
 
