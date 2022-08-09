@@ -1,17 +1,19 @@
 server {
-    server_name md-files.domain.tld;
+    listen        6666;
+    server_name   domain.tld;
 
-    access_log /var/www/md-files.domain.tld/logs/access.log;
-    error_log /var/www/md-files.domain.tld/logs/error.log;
-
-    root /home/user/md-files/html_pages;
+    root  /var/www/mdblog;
 
     location / {
-        try_file $uri =404;
+        try_files /html-pages$uri =404;
     }
 
-    error_page 404 /404.html;
-    location = /404.html {
-        internal;
+    location /public {
+        try_files $uri =404;
+    }
+
+    location ~ ^/raw/([a-z0-9]+)/(.+?)\.md {
+        default_type text/plain;
+        try_files /saved-files/$2.$1.md =404;
     }
 }
