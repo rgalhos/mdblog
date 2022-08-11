@@ -31,4 +31,26 @@ window.addEventListener('load', () => {
 
         el.innerText = new Date(time).toLocaleString();
     });
+
+    // Add 'Copy to clipboard' button to code blocks
+    Array.prototype.forEach.call(document.querySelectorAll('pre'), (el) => {
+        const div = document.createElement('div');
+        div.setAttribute('class', 'copy-button');
+        div.innerHTML =
+            '<button onclick="copyCodeBlock(this)" title="Copy to clipboard" aria-label="Copy to clipboard">' +
+            '<i class="mdi mdi-content-copy"></i>' +
+            '</button>';
+
+        el.onmouseleave = () => (div.children[0].innerHTML = '<i class="mdi mdi-content-copy"></i>');
+        el.prepend(div);
+    });
+
+    window.copyCodeBlock = function (el) {
+        if (typeof navigator.clipboard !== 'undefined' && typeof navigator.clipboard.writeText === 'function') {
+            const pre = el.parentElement.parentElement;
+            navigator.clipboard.writeText(pre.lastChild.innerText);
+
+            el.innerHTML = '<i class="mdi mdi-check" style="color: green;"></i>';
+        }
+    };
 });

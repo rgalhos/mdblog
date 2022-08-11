@@ -1,6 +1,7 @@
 :root {
     --primary: #1c3f60;
     --light-primary: #afc1d0;
+    --button-hover: rgba(175, 193, 208, 0.85);
     --body-bg: #0b1320;
     --text-color: #fdfdfd;
     --scroll-thumb-bg: #1c3f60;
@@ -243,8 +244,31 @@ li code {
 }
 
 pre {
+    position: relative;
     padding: 8px 24px;
     overflow-x: auto;
+}
+
+.copy-button {
+    display: none;
+    position: absolute;
+    right: 24px;
+}
+
+pre:hover .copy-button {
+    display: block;
+}
+
+.copy-button button {
+    background-color: var(--light-primary);
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.copy-button button:hover {
+    background-color: var(--button-hover);
 }
 
 /**
