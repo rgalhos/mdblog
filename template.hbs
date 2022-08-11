@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width"/>
         {{{ metaTags }}}
         <link rel="stylesheet" href="/public/_styles.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
         <script src="/public/_scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
@@ -62,6 +63,7 @@ window['editHistory'] = {{{ jsonStringify editHistory }}};
                         </li>
                         {{#each editHistory}}
                         <li>
+                            <i class="mdi mdi-link-variant"></i>
                             <a href="/raw/{{ this.md5sum }}/{{ this.filename }}.md">
                                 <code class="colored-hash" data-hash="{{ this.md5sum }}">
                                     {{ this.md5sum }}
