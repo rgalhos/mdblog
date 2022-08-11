@@ -15,6 +15,12 @@ export function createPage(fileDesc: IFileDescription): void {
     const markdownContent = readFileSync(fileDesc.path).toString('utf-8');
 
     const extractedMetadata = extractMetadata(markdownContent);
+
+    extractedMetadata.metaTags.robots = extractedMetadata.metaTags?.robots || {
+        type: 'name',
+        content: process.env.PUBLICENV_ROBOTS as string,
+    };
+
     const metaTags = Object.entries(extractedMetadata.metaTags)
         .map(([name, { content, type }]) => `<meta ${type}="${name}" content="${content}" />`)
         .join('\n');
