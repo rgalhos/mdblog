@@ -15,9 +15,11 @@ window.addEventListener('load', () => {
 
         if (!hash) return;
 
-        const start = hash.slice(0, 4);
-        const end = hash.slice(-4);
-        const mid = hash.slice(4, -4).match(/.{3}/g);
+        const s = Math.log2(hash.length) & 1 ? 4 : 5;
+
+        const start = hash.slice(0, s);
+        const end = hash.slice(-s);
+        const mid = hash.slice(s, -s).match(/.{3}/g);
 
         el.innerHTML =
             start + mid.map((hex) => `<span class="hash" style="background: #${hex}">${hex}</span>`).join('') + end;
