@@ -34,6 +34,16 @@ window.addEventListener('load', () => {
         el.innerText = new Date(time).toLocaleString();
     });
 
+    window.copyToClipboard = function (text) {
+        if (typeof navigator.clipboard !== 'undefined' && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(text);
+            return true;
+        }
+
+        /** @todo Browser might not support navigator.clipboard API **/
+        return false;
+    };
+
     // Add 'Copy to clipboard' button to code blocks
     Array.prototype.forEach.call(document.querySelectorAll('pre'), (el) => {
         const div = document.createElement('div');
@@ -48,11 +58,27 @@ window.addEventListener('load', () => {
     });
 
     window.copyCodeBlock = function (el) {
-        if (typeof navigator.clipboard !== 'undefined' && typeof navigator.clipboard.writeText === 'function') {
-            const pre = el.parentElement.parentElement;
-            navigator.clipboard.writeText(pre.lastChild.innerText);
+        const pre = el.parentElement.parentElement;
 
+        if (copyToClipboard(pre.lastChild.innerText)) {
             el.innerHTML = '<i class="mdi mdi-check" style="color: green;"></i>';
         }
     };
+
+    // Add 'Copy to clipboard' to [hash] blocks
+    Array.prototype.forEach.call(document.querySelectorAll('article code.colored-hash'), (el) => {
+        const btn = document.createElement('button');
+        btn.setAttribute('title', 'Copy to clipboard');
+        btn.setAttribute('aria-label', 'Copy to clipboard');
+        btn.setAttribute('class', 'copy-hash-btn');
+        btn.onclick = () => {
+            if (copyToClipboard(el.getAttribute('data-hash'))) {
+                btn.innerHTML = '<i class="mdi mdi-check" style="color: green;"></i>';
+            }
+        };
+        btn.innerHTML = '<i class="mdi mdi-content-copy"></i>';
+
+        // why the hell does 'insertBefore' exist but 'insertAfter' doesn't?
+        el.parentNode.insertBefore(btn, el.nextSibling);
+    });
 });
