@@ -16,6 +16,7 @@ it('can parse youtube tags', () => {
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
+    class="youtube-embed"
 ></iframe>
 `);
 
@@ -29,6 +30,7 @@ it('can parse youtube tags', () => {
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
+    class="youtube-embed"
 ></iframe>
 `);
 });
