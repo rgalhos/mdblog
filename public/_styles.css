@@ -111,6 +111,27 @@ a:hover {
     .footer-container ul.edit-history li a code + span {
         display: none;
     }
+
+    .music-element {
+        flex-direction: column !important;
+    }
+
+    .music-element .info {
+        padding: 0 12px !important;
+    }
+
+    .music-element .info .title {
+        font-size: 1em !important;
+        -webkit-line-clamp: 3 !important;
+    }
+
+    .music-element .info .artist-name {
+        font-size: 0.75em !important;
+    }
+
+    .music-element .links {
+        display: none !important ;
+    }
 }
 
 .article-container {
@@ -142,6 +163,66 @@ article blockquote {
 article blockquote blockquote {
     margin: 10px 0 10px 10px;
     padding: 0.5em 0 0.5em 20px;
+}
+
+.music-element {
+    width: 100%;
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    margin: 12px 0;
+}
+
+.music-element img {
+    width: 100px;
+}
+
+.music-element .info {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 24px;
+}
+
+.music-element .info .title {
+    font-size: 1.5em;
+    line-height: 1em;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.music-element .info .artist-name {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.music-element .links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.music-element .links a {
+    display: flex;
+    width: 100px;
+    font-size: 50px;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.25s linear;
+}
+
+.music-element .links .youtube:hover {
+    color: #ff0000;
+}
+
+.music-element .links .spotify:hover {
+    color: #1db954;
 }
 
 .anchor {
@@ -278,6 +359,22 @@ pre:hover .copy-button {
     margin: 0 4px;
     color: var(--light-primary);
     cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+.flex-d-row {
+    flex-direction: row;
+}
+
+.flex-d-column {
+    flex-direction: column;
 }
 
 /**
