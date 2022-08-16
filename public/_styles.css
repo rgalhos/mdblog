@@ -132,6 +132,14 @@ a:hover {
     .music-element .links {
         display: none !important ;
     }
+
+    .tooltip {
+        position: unset !important;
+    }
+
+    .tooltip .tooltip-content {
+        bottom: unset !important;
+    }
 }
 
 .article-container {
@@ -303,6 +311,31 @@ footer {
 li.flex-gap {
     display: flex;
     gap: 10px;
+}
+
+.tooltip {
+    position: relative;
+    text-decoration: underline dashed var(--light-primary);
+    text-underline-offset: 2px;
+}
+
+.tooltip .tooltip-content {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background-color: var(--button-hover);
+    color: var(--body-bg);
+    content: attr(data-tooltip);
+    border-radius: 4px;
+    padding: 4px 8px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+}
+
+.tooltip:hover .tooltip-content {
+    display: block;
 }
 
 .hash {
