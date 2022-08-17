@@ -87,6 +87,10 @@ a:hover {
 }
 
 @media only screen and (max-width: 768px) {
+    :root {
+        --max-content-width: calc(100vw - 48px);
+    }
+
     .content {
         padding: 24px;
         min-height: calc(100vh - 48px);
@@ -96,7 +100,7 @@ a:hover {
     article iframe,
     article img,
     article video {
-        max-width: calc(100vw - 48px);
+        max-width: var(--max-content-width);
     }
 
     .footer-container div {
@@ -137,8 +141,12 @@ a:hover {
         position: unset !important;
     }
 
-    .tooltip .tooltip-content {
+    .tooltip .tooltip-content,
+    [data-tooltip]::after {
         bottom: unset !important;
+        left: unset !important;
+        margin-left: 0 !important;
+        width: calc(var(--max-content-width) - 16px) !important;
     }
 }
 
@@ -259,7 +267,7 @@ h4:hover .anchor,
     user-select: none;
     border-radius: 4px;
     padding: 4px 8px;
-    position: absolute;
+    position: absolute !important;
     bottom: 8px;
     left: 4px;
 }
@@ -319,12 +327,22 @@ li.flex-gap {
     text-underline-offset: 2px;
 }
 
-.tooltip .tooltip-content {
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+}
+
+.tooltip .tooltip-content,
+[data-tooltip]::after {
     display: none;
     position: absolute;
     text-align: center;
     background-color: var(--button-hover);
     color: var(--body-bg);
+    font-weight: normal;
     content: attr(data-tooltip);
     border-radius: 4px;
     padding: 4px 8px;
@@ -334,7 +352,8 @@ li.flex-gap {
     width: 300px;
 }
 
-.tooltip:hover .tooltip-content {
+.tooltip:hover .tooltip-content,
+[data-tooltip]:hover::after {
     display: block;
 }
 

@@ -5,7 +5,7 @@ const template = compile(`
 <div class="music-element {{ type }}" id={{ id }}>
     <div class="flex grow flex-d-row">
         {{#if cover}}
-        <img src="{{ cover }}" alt="Album cover" />
+        <img src="{{ cover }}" alt="" title="Album cover" />
         {{/if}}
         <div class="info">
             <span class="title">{{ title }}</span>
