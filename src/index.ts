@@ -1,10 +1,8 @@
-import { exec } from 'node:child_process';
 import { copyFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import chokidar from 'chokidar';
-import { createPage } from './createPage';
-import { addHeadToHistory, isHead } from './history';
-import type { IFileDescription } from './interfaces/IFileDescription';
+import { FileWatcher } from './FileWatcher';
+import { PageBuilder } from './PageBuilder';
+import { addHeadToHistory } from './history';
 
 //#region startup checks
 if (!process.env.MD_FILES_PATH) {
@@ -22,65 +20,27 @@ if (!process.env.MD_FILES_PATH) {
 }
 //#endregion startup checks
 
-function shell(cmd: string): Promise<{ stdout: string; stderr: string }> {
-    return new Promise((resolve, reject) => {
-        exec(cmd, (err, stdout, stderr) => {
-            if (err) return reject(err);
-            resolve({ stdout, stderr });
-        });
-    });
-}
+~(function (): void {
+    const fileWatcher = new FileWatcher();
+    const pageBuilder = new PageBuilder();
 
-async function getMarkdownFiles(): Promise<IFileDescription[]> {
-    const files = await shell(
-        `find "${process.env.MD_FILES_PATH}" -type f -iname "*.md" -exec sh -c 'printf "%s %s %s\n" "$(du -b $1 | cut -f1)" "$(stat -c %Y $1)" "$(md5sum $1)"' '' '{}' '{}' \\;`
-    );
+    fileWatcher.on('mdChange', (entries) => {
+        for (const entry of entries) {
+            const copyPath = path.join(process.env.SAVED_MD_FILES_PATH, entry.filename + '.' + entry.md5sum + '.md');
 
-    return files.stdout
-        .slice(0, -1)
-        .split('\n')
-        .map((line) => line.split(/ +/g))
-        .map((data) => {
-            const { base, name } = path.parse(data[3]);
+            // File might already be there in case of a rollback
+            if (!existsSync(copyPath)) {
+                copyFileSync(entry.path, copyPath);
+            }
 
-            return {
-                size: Number(data[0]),
-                mtime: Number(data[1]),
-                md5sum: data[2],
-                path: data[3],
-                basename: base,
-                filename: name,
-            };
-        });
-}
+            addHeadToHistory(entry);
 
-async function main(): Promise<void> {
-    const markdownFileList = await getMarkdownFiles();
-    const markdownFiles = markdownFileList.filter((file) => !isHead(file));
-
-    for (const entry of markdownFiles) {
-        const copyPath = path.join(process.env.SAVED_MD_FILES_PATH, entry.filename + '.' + entry.md5sum + '.md');
-
-        // File might already be there in case of a rollback
-        if (!existsSync(copyPath)) {
-            copyFileSync(entry.path, copyPath);
+            pageBuilder.build(entry);
         }
+    });
 
-        addHeadToHistory(entry);
-
-        createPage(entry);
-    }
-}
-
-const watcher = chokidar.watch(process.env.MD_FILES_PATH, {
-    persistent: true,
-    ignorePermissionErrors: false,
-    atomic: true,
-    /**
-     * @todo
-     */
-    //ignored: /^.*(?<!\.md)$/i,
-});
-
-watcher.on('add', main);
-watcher.on('change', main);
+    fileWatcher.on('templateChange', () => {
+        console.log('template.hbs was modified. Rebuilding pages.');
+        pageBuilder.rebuildPages();
+    });
+})();

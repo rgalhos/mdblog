@@ -1,4 +1,4 @@
-import { extractMetadata } from '../createPage';
+import { extractMetadata } from '../PageBuilder';
 
 const header = `<!---
 {{ meta-property og:title = Markdown Syntax }}
