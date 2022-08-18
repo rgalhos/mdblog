@@ -1,12 +1,18 @@
 window.addEventListener('load', () => {
     ///#region Dynamic scroll observer
     const obs = document.getElementById('scroll-observer');
+    const headerBar = document.getElementById('header-bar');
     const articleHeight = document.getElementById('!main').offsetHeight;
     const windowHeight = window.innerHeight;
+    let prevScroll = window.scrollY;
 
     window.addEventListener('scroll', () => {
         const scrollPercent = window.scrollY / (articleHeight - windowHeight);
         obs.style.width = scrollPercent * 100 + '%';
+
+        const currScroll = window.scrollY;
+        headerBar.style.top = prevScroll > currScroll ? '0px' : '-51px';
+        prevScroll = currScroll;
     });
     ///#endregion Dynamic scroll observer
 

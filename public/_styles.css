@@ -54,7 +54,7 @@ a:hover {
     text-decoration: underline;
 }
 
-.header-bar {
+#header-bar {
     position: sticky;
     top: 0;
     border-bottom: 1px solid var(--primary);
@@ -64,21 +64,28 @@ a:hover {
     background-color: var(--body-bg);
     height: 50px;
     z-index: 3;
+    transition: 0.3s top;
 }
 
-.header-bar .centered {
+#header-bar .centered {
     text-align: center;
     margin: 0 auto;
 }
 
+.scroll-observer-wrapper {
+    position: absolute;
+    margin-top: 55px;
+    width: 100%;
+}
+
 #scroll-observer {
-    position: sticky;
-    top: 51px;
+    position: relative;
     background-color: var(--primary);
     max-width: 100%;
     width: 0px;
     height: 3px;
     z-index: 3;
+    align-self: flex-end;
 }
 
 .content {
@@ -350,6 +357,7 @@ li.flex-gap {
     left: 50%;
     margin-left: -150px;
     width: 300px;
+    z-index: 5;
 }
 
 .tooltip:hover .tooltip-content,
