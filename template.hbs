@@ -1,33 +1,50 @@
 <!DOCTYPE html>
-<html lang="{{ ENV_HTML_LANG }}">
+<html lang="{{ ENV_HTML_LANG }}" class="fallback-theme">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
         {{{ metaTags }}}
+        <link rel="stylesheet" href="/public/_dark-purple.css" />
         <link rel="stylesheet" href="/public/_styles.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
+        <link rel="icon" href="/public/favicon.ico" sizes="any" />
+        <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
         <script src="/public/_scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <title>{{ pageTitle }}</title>
     </head>
     <body>
-        <div id="header-bar">
-            <div class="centered">
-                <h2>{{ pageTitle }}</h2>
-            </div>
-            <div class="scroll-observer-wrapper" role="presentation">
-                <div id="scroll-observer"></div>
+        <div class="header flex flex-row align-items-center" id="header-bar" aria-hidden="true">
+            <div class="hider"></div>
+            <div class="lambda" role="img" alt="λ"></div>
+            <div class="thick-line grow">
+                <span id="scroll-observer"></span>
             </div>
         </div>
 
-        <div class="content">
-            <article class="markdown article-container" id="!main">
+        <!-- Main container -->
+        <main>
+            {{#if sidebar}}
+                <!-- Sidebar -->
+                {{{ sidebar }}}
+                <!-- End: Sidebar -->
+            {{/if}}
+
+            <!-- Page contents -->
+            <article class="markdown article-container grow" id="!main">
                 {{{ markdownContent }}}
             </article>
-        </div>
+            <!-- End: Page contents -->
+        </main>
+        <!-- End: Main container -->
 
         <footer>
+            <div class="flex flex-row align-items-center" aria-hidden="true">
+                <div class="thick-line grow" style="background: var(--primary)"></div>
+                <div class="lambda" role="img" alt="λ"></div>
+            </div>
+
             <div class="footer-container">
                 <div>
                     <ul>
@@ -59,12 +76,15 @@
                         </li>
                         {{#each editHistory}}
                         <li>
-                            <i class="mdi mdi-link-variant"></i>
-                            <a href="/raw/{{ this.md5sum }}/{{ this.filename }}.md">
+                            <i class="mdi mdi-link-variant" aria-hidden="true"></i>
+                            <a 
+                                href="/raw/{{ this.md5sum }}/{{ this.filename }}.md"
+                                aria-label="Edit {{@index}}, {{ dateFallback this.mtime }}, {{ summarizeHash this.md5sum }}"
+                            >
                                 <code class="colored-hash" data-hash="{{ this.md5sum }}">
                                     {{ this.md5sum }}
                                 </code>
-                                <span style="color: var(--primary);">●</span>
+                                <span style="color: var(--primary);" aria-hidden="true">●</span>
                                 <span data-time="{{ this.mtime }}">
                                     {{ dateFallback this.mtime }}
                                 </span>
@@ -75,5 +95,23 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Asset: Lambda svg - 69x70 px -->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            version="1.1"
+            style="width: 1px; height: 1px"
+            aria-hidden="true"
+        >
+            <g>
+                <clipPath id="lambda">
+                    <path
+                        d="M 48.03125 69.535156 L 33.859375 33.863281 L 13.085938 66.378906 L 0.0625 66.378906 L 29.074219 19.835938 L 25.816406 10.640625 L 14.519531 10.640625 L 14.519531 -0.320312 L 33.859375 -0.320312 L 56.070312 55.789062 L 65.835938 52.628906 L 69.089844 63.496094 Z M 48.03125 69.535156"
+                    />
+                </clipPath>
+            </g>
+        </svg>
+        <!-- End: Asset: Lambda svg -->
     </body>
 </html>

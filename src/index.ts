@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { FileWatcher } from './FileWatcher';
-import { PageBuilder } from './PageBuilder';
+import { PageBuilder } from './page-builder/PageBuilder';
 import { addHeadToHistory } from './history';
 
 //#region startup checks
@@ -43,4 +43,8 @@ if (!process.env.MD_FILES_PATH) {
         console.log('template.hbs was modified. Rebuilding pages.');
         pageBuilder.rebuildPages();
     });
+
+    if (process.env.REBUILD_ON_START === 'true') {
+        pageBuilder.rebuildPages();
+    }
 })();

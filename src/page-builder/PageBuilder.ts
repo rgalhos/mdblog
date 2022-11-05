@@ -1,13 +1,15 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import Handlebars from 'handlebars';
-import type { IFileDescription } from './interfaces/IFileDescription';
-import type { ITemplateContext } from './interfaces/ITemplateContext';
-import { FileWatcher } from './FileWatcher';
-import { getEditHistory } from './history';
+import type { IFileDescription } from '../interfaces/IFileDescription';
+import type { ITemplateContext } from '../interfaces/ITemplateContext';
+import { getPageOptions } from './getPageOptions';
+import { FileWatcher } from '../FileWatcher';
+import { getEditHistory } from '../history';
 import { makeHtml } from './makeHtml';
-import { project } from './utils';
-import './hbs-helpers';
+import { project } from '../utils';
+import './helpers';
+import { generateSidebar } from './generateSidebar';
 
 export class PageBuilder {
     private template!: HandlebarsTemplateDelegate;
@@ -21,25 +23,34 @@ export class PageBuilder {
     }
 
     public build(fileDesc: IFileDescription): void {
+        console.log(`Rebuilding ${fileDesc.basename} [${fileDesc.md5sum}]`);
+
         const renderStartTime = +Date.now();
         const markdownContent = readFileSync(fileDesc.path).toString('utf-8');
+        const pageOptions = getPageOptions(markdownContent);
 
-        const extractedMetadata = extractMetadata(markdownContent);
-
-        extractedMetadata.metaTags.robots = extractedMetadata.metaTags?.robots || {
+        pageOptions.metaTags.robots = pageOptions.metaTags?.robots || {
             type: 'name',
             content: process.env.PUBLICENV_ROBOTS as string,
         };
 
-        const metaTags = Object.entries(extractedMetadata.metaTags)
+        const metaTags = Object.entries(pageOptions.metaTags)
             .map(([name, { content, type }]) => `<meta ${type}="${name}" content="${content}" />`)
             .join('\n');
 
+        const htmlPageContent = makeHtml(markdownContent);
+
+        let sidebar: null | string = null;
+        if (!pageOptions.hideSidebar) {
+            sidebar = generateSidebar(htmlPageContent);
+        }
+
         const context: ITemplateContext = {
-            pageTitle: extractedMetadata.pageTitle ?? fileDesc.basename,
+            pageTitle: pageOptions.title ?? fileDesc.basename,
             file: fileDesc,
             metaTags: metaTags,
-            markdownContent: makeHtml(markdownContent),
+            markdownContent: htmlPageContent,
+            sidebar: sidebar,
             editHistory: getEditHistory(fileDesc.path).map((entry) =>
                 project(entry, ['filename', 'size', 'md5sum', 'mtime'])
             ),
@@ -71,34 +82,4 @@ export class PageBuilder {
             this.build(entry);
         }
     }
-}
-
-export function extractMetadata(markdownContent: string): {
-    pageTitle: string | null;
-    metaTags: Dictionary<{ content: string; type: 'name' | 'property' }>;
-} {
-    //#region <meta name> tags
-    const metaTags: Dictionary<{ content: string; type: 'name' | 'property' }> = {};
-    const matchedMetaTags = markdownContent.match(/^\s*\{\{\s*meta(-property)?\s+[\w:]+\s*=\s*.+?\s*\}\}$/gm) || [];
-    const parsedMetaTags = matchedMetaTags.map(
-        (tag) =>
-            tag.match(/^\s*\{\{\s*meta(?:-(?<type>property))?\s+(?<tag>[\w:]+)\s*=\s*(?<content>.+?)\s*\}\}$/)
-                ?.groups || {}
-    );
-
-    for (const { type, tag, content } of parsedMetaTags) {
-        if (!tag || !content) continue;
-
-        metaTags[tag] = {
-            content: content.replace(/"/g, '&quot;'),
-            type: type === 'property' ? 'property' : 'name',
-        };
-    }
-    //#endregion <meta name> tags
-
-    //#region page title
-    const pageTitle = markdownContent?.match(/^\s*\{\{\s*title\s+(.+?)\s*\}\}$/m)?.[1] || null;
-    //#endregion page title
-
-    return { metaTags, pageTitle };
 }

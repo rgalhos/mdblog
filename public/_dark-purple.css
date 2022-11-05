@@ -1,0 +1,23 @@
+:root[data-theme='dark-purple'],
+:root.fallback-theme {
+    --primary: rgb(189, 163, 255); /* #bda3ff */
+    --primary-light: rgb(241, 212, 255); /* #f1d4ff */
+    --primary-dark: rgb(139, 116, 203); /* #8b74cb */
+
+    --secondary: rgb(63, 81, 181); /* #3f51b5 */
+    --secondary-light: rgb(117, 125, 232); /* #757de8 */
+    --secondary-dark: rgb(0, 41, 132); /* #002984 */
+
+    --background: rgb(36, 38, 44); /* #24262c */
+    --background-light: rgb(81, 81, 81); /* #515151 */
+    --background-dark: rgb(18, 18, 18); /* #121212 */
+
+    --text-color: rgb(255, 255, 255);
+    --text-color-primary: rgb(0, 0, 0);
+    --text-color-secondary: rgb(255, 255, 255);
+
+    --button-hover: rgb(139, 116, 203);
+
+    --scroll-thumb-bg: #4f4f4f;
+    --scroll-thumb-bg-hover: #7f7f7f;
+}

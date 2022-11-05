@@ -47,7 +47,7 @@ export class FileWatcher extends EventEmitter {
         const markdownFileList = await FileWatcher.getMarkdownFiles();
         const markdownFiles = markdownFileList.filter((file) => !isHead(file));
 
-        if (markdownFileList.length > 0) {
+        if (markdownFiles.length > 0) {
             this.emit('mdChange', markdownFiles);
         }
     }
@@ -63,8 +63,8 @@ export class FileWatcher extends EventEmitter {
             //ignored: /^.*(?<!\.md)$/i,
         });
 
-        mdWatcher.on('add', this.onFilelistChange);
-        mdWatcher.on('change', this.onFilelistChange);
+        mdWatcher.on('add', this.onFilelistChange.bind(this));
+        mdWatcher.on('change', this.onFilelistChange.bind(this));
 
         const templateWatcher = chokidar.watch('./template.hbs', {
             persistent: true,

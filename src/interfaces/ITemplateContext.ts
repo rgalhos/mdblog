@@ -7,4 +7,5 @@ export type ITemplateContext = UnknownDictionary & {
     markdownContent: string;
     editHistory: UnknownDictionary[];
     renderStartTime: number;
+    sidebar: null | string;
 };

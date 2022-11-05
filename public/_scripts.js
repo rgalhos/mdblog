@@ -11,9 +11,17 @@ window.addEventListener('load', () => {
         obs.style.width = scrollPercent * 100 + '%';
 
         const currScroll = window.scrollY;
-        headerBar.style.top = prevScroll > currScroll ? '0px' : '-51px';
+        headerBar.style.top = prevScroll > currScroll ? '0px' : '-52px';
         prevScroll = currScroll;
     });
+
+    obs.parentElement.onclick = (evt) => {
+        const y = Math.min(
+            articleHeight,
+            evt.offsetX * ((articleHeight - windowHeight) / obs.parentElement.offsetWidth)
+        );
+        window.scrollTo({ top: y, left: 0, behavior: 'smooth' });
+    };
     ///#endregion Dynamic scroll observer
 
     Array.prototype.forEach.call(document.getElementsByClassName('colored-hash'), (el) => {
@@ -79,7 +87,7 @@ window.addEventListener('load', () => {
         btn.setAttribute('class', 'copy-hash-btn');
         btn.onclick = () => {
             if (copyToClipboard(el.getAttribute('data-hash'))) {
-                btn.innerHTML = '<i class="mdi mdi-check" style="color: green;"></i>';
+                btn.innerHTML = '<i class="mdi mdi-check" style="color: lightgreen;"></i>';
             }
         };
         btn.innerHTML = '<i class="mdi mdi-content-copy"></i>';

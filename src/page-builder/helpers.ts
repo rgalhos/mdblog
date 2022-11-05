@@ -11,3 +11,5 @@ Handlebars.registerHelper('dateFallback', (date: Date | number): string => {
 });
 
 Handlebars.registerHelper('jsonStringify', JSON.stringify);
+
+Handlebars.registerHelper('summarizeHash', (hash): string => hash.slice(0, 4) + '...' + hash.slice(-4));
