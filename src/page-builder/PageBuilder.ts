@@ -38,7 +38,7 @@ export class PageBuilder {
             .map(([name, { content, type }]) => `<meta ${type}="${name}" content="${content}" />`)
             .join('\n');
 
-        const htmlPageContent = makeHtml(markdownContent);
+        const htmlPageContent = makeHtml(markdownContent, pageOptions);
 
         let sidebar: null | string = null;
         if (!pageOptions.hideSidebar) {

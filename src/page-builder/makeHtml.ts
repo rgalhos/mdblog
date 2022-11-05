@@ -6,8 +6,10 @@ import musicElement from '../showdown-extensions/music-element';
 import removeMeta from '../showdown-extensions/remove-meta';
 import tooltip from '../showdown-extensions/tooltip';
 import youtubePreview from '../showdown-extensions/youtube-preview';
+import lazyLoadImages from '../showdown-extensions/lazy-load-images';
+import type { PageOptions } from '../interfaces/IPageOptions';
 
-export function makeHtml(markdownContent: string): string {
+export function makeHtml(markdownContent: string, pageOptions: PageOptions): string {
     const extensions: Showdown.Extension[][] = [
         removeMeta,
         youtubePreview,
@@ -17,6 +19,10 @@ export function makeHtml(markdownContent: string): string {
         musicElement,
         tooltip,
     ];
+
+    if (pageOptions.lazyLoadImages) {
+        extensions.push(lazyLoadImages);
+    }
 
     return new Showdown.Converter({
         extensions: extensions,
