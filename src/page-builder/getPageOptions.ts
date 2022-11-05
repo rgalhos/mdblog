@@ -25,7 +25,7 @@ export function getPageOptions(rawContent: string): PageOptions {
 
     for (const t of tags) {
         const [tag, ...rest] = t.split(' ') as [AvailableOptions, ...string[]];
-        const contents = rest.join(' ');
+        const contents = rest.join(' ').trim();
 
         if (tag === 'title') {
             opts.title = contents.replace('<', '&lt;');
@@ -37,13 +37,15 @@ export function getPageOptions(rawContent: string): PageOptions {
             // User must configure CORS correctly, obviously
             opts.disableXssFilter = true;
         } else if (tag === 'meta' || tag === 'meta-property') {
-            const [key, ...r] = contents.split('=');
+            const [key, ...r] = contents.split(/\s*=\s*/);
             const value = r.join('=').replace(/"/g, '&quot;');
 
-            opts.metaTags[key] = {
-                content: value,
-                type: tag === 'meta' ? 'name' : 'property',
-            };
+            if (key && value) {
+                opts.metaTags[key] = {
+                    content: value,
+                    type: tag === 'meta' ? 'name' : 'property',
+                };
+            }
         }
     }
 
