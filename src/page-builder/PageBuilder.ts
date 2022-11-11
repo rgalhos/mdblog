@@ -50,12 +50,15 @@ export class PageBuilder {
             file: fileDesc,
             metaTags: metaTags,
             markdownContent: htmlPageContent,
-            sidebar: sidebar,
             editHistory: getEditHistory(fileDesc.path).map((entry) =>
                 project(entry, ['filename', 'size', 'md5sum', 'mtime'])
             ),
             renderStartTime: renderStartTime,
             stringifiedFileInfo: JSON.stringify(project(fileDesc, ['filename', 'basename', 'size', 'md5sum', 'mtime'])),
+
+            sidebar: sidebar,
+            hideEditHistory: pageOptions.hideEditHistory,
+
             ...this.getEnvVariables(),
         };
 

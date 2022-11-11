@@ -8,4 +8,5 @@ export type ITemplateContext = UnknownDictionary & {
     editHistory: UnknownDictionary[];
     renderStartTime: number;
     sidebar: null | string;
+    hideEditHistory: boolean;
 };

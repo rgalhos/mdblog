@@ -4,8 +4,9 @@ export function getPageOptions(rawContent: string): PageOptions {
     const opts: PageOptions = {
         title: null,
         metaTags: {},
-        lazyLoadImages: false,
         hideSidebar: false,
+        lazyLoadImages: false,
+        hideEditHistory: false,
         disableXssFilter: false,
     };
 
@@ -36,6 +37,8 @@ export function getPageOptions(rawContent: string): PageOptions {
         } else if (tag === 'disable_xss_prevention') {
             // User must configure CORS correctly, obviously
             opts.disableXssFilter = true;
+        } else if (tag === 'hide_edit_history') {
+            opts.hideEditHistory = true;
         } else if (tag === 'meta' || tag === 'meta-property') {
             const [key, ...r] = contents.split(/\s*=\s*/);
             const value = r.join('=').replace(/"/g, '&quot;');
