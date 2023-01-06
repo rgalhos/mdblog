@@ -295,11 +295,18 @@ table tr:nth-child(even) {
 }
 
 .music-element {
+    position: relative;
     width: 100%;
-    background-color: var(--background-light);
+    min-height: 100px;
     display: flex;
     flex-direction: row;
     margin: 12px 0;
+    overflow: hidden;
+}
+
+.music-element.no-cover,
+.music-element .cover-bg /* fallback */ {
+    background-color: var(--background-light);
 }
 
 .music-element img {
@@ -312,6 +319,16 @@ table tr:nth-child(even) {
     flex-direction: column;
     justify-content: center;
     padding: 0 24px;
+    text-shadow: 3px 0px 7px rgb(81 67 21 / 80%), -3px 0px 7px rgb(81 67 21 / 80%), 0px 4px 7px rgb(81 67 21 / 80%);
+}
+
+.music-element .cover-bg {
+    background-size: cover;
+    filter: blur(100px);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 .music-element .info .title {
@@ -321,7 +338,6 @@ table tr:nth-child(even) {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    overflow: hidden;
     text-overflow: ellipsis;
 }
 
@@ -334,7 +350,7 @@ table tr:nth-child(even) {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    flex-grow: 1;
+    flex-shrink: 1;
 }
 
 .music-element .links a {
@@ -343,14 +359,19 @@ table tr:nth-child(even) {
     font-size: 50px;
     align-items: center;
     justify-content: center;
-    transition: color 0.25s linear;
+    transition: transform 0.25s linear;
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
 }
 
-.music-element .links .youtube:hover {
+.music-element .links a:hover {
+    transform: scale(1.1);
+}
+
+.music-element .links .youtube {
     color: #ff0000;
 }
 
-.music-element .links .spotify:hover {
+.music-element .links .spotify {
     color: #1db954;
 }
 

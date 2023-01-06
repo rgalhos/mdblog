@@ -2,7 +2,7 @@ import type { ShowdownExtension } from 'showdown';
 import { compile } from 'handlebars';
 
 const template = compile(`
-<div class="music-element {{ type }}" id={{ id }}>
+<div class="music-element {{ type }}{{#unless cover}} no-cover{{/unless}}" id={{ id }}>
     <div class="flex grow flex-d-row">
         {{#if cover}}
         <img src="{{ cover }}" alt="" title="Album cover" />
@@ -22,6 +22,9 @@ const template = compile(`
             <a href="{{ spotify }}" class="spotify"><i class="mdi mdi-spotify"></i></a>
             {{/if}}
         </div>
+        {{/if}}
+        {{#if cover}}
+        <div class="cover-bg" style="background-image: url('{{ cover }}')"></div>
         {{/if}}
     </div>
 </div>
