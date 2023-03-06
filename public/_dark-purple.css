@@ -1,23 +1,27 @@
+/**
+ * Using Catppuccin's Mocha color scheme
+ * https://github.com/catppuccin/catppuccin
+**/
+
 :root[data-theme='dark-purple'],
 :root.fallback-theme {
-    --primary: rgb(189, 163, 255); /* #bda3ff */
-    --primary-light: rgb(241, 212, 255); /* #f1d4ff */
-    --primary-dark: rgb(139, 116, 203); /* #8b74cb */
+    --primary: rgb(203, 166, 247); /* #cba6f7 */
 
-    --secondary: rgb(63, 81, 181); /* #3f51b5 */
-    --secondary-light: rgb(117, 125, 232); /* #757de8 */
-    --secondary-dark: rgb(0, 41, 132); /* #002984 */
+    --background: rgb(30, 30, 46); /* #1e1e2e */
+    --background-light: rgb(49, 50, 68); /* #313244 */ /* Surface0 */
+    --background-dark: rgb(24, 24, 37); /* #181825 */
+    --background-darker: rgb(17, 17, 27); /* #11111b */
 
-    --background: rgb(36, 38, 44); /* #24262c */
-    --background-light: rgb(81, 81, 81); /* #515151 */
-    --background-dark: rgb(18, 18, 18); /* #121212 */
+    --text-color: rgb(205, 214, 244);
 
-    --text-color: rgb(255, 255, 255);
-    --text-color-primary: rgb(0, 0, 0);
-    --text-color-secondary: rgb(255, 255, 255);
+    --surface-0: rgb(49, 50, 68);
+    --surface-1: rgb(69, 71, 90);
+    --surface-2: rgb(88, 91, 112);
 
-    --button-hover: rgb(139, 116, 203);
+    --overlay-0: rgb(108, 112, 134);
+    --overlay-1: rgb(127, 132, 156);
+    --overlay-2: rgb(147, 153, 178);
 
-    --scroll-thumb-bg: #4f4f4f;
-    --scroll-thumb-bg-hover: #7f7f7f;
+    --scroll-thumb-bg: rgb(203, 166, 247);
+    --scroll-thumb-bg-hover: rgb(203, 166, 247);
 }

@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
         obs.style.width = scrollPercent * 100 + '%';
 
         const currScroll = window.scrollY;
-        headerBar.style.top = prevScroll > currScroll ? '0px' : '-52px';
+        headerBar.style.top = prevScroll > currScroll ? '0px' : '-70px';
         prevScroll = currScroll;
     });
 

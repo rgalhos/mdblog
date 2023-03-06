@@ -52,6 +52,7 @@ a:hover {
 main {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     min-height: 100vh;
     max-width: 100vw;
 }
@@ -62,6 +63,7 @@ main {
     transition: 0.3s top;
     height: 70px;
     z-index: 666;
+    background-color: var(--background);
 }
 .header,
 footer {
@@ -72,7 +74,7 @@ footer {
 .thick-line {
     border: 0;
     border-radius: 4px;
-    background: var(--primary-dark);
+    background: var(--background-light);
     height: 24px;
 }
 
@@ -85,16 +87,6 @@ footer {
     height: 24px;
     border-radius: 4px;
     background: var(--primary);
-}
-
-.header .hider {
-    position: absolute;
-    width: 100vw;
-    height: 70px;
-    top: -23px;
-    left: -70px;
-    z-index: -1;
-    background: var(--background);
 }
 
 .lambda {
@@ -115,12 +107,13 @@ footer {
 }
 
 nav {
+    display: flex;
+    justify-content: flex-end;
     position: sticky;
-    margin-top: 4%;
+    margin: 4% 24px 0 0;
     top: 84px;
     width: 275px;
     max-height: calc(100vh - 128px);
-    margin-left: 128px;
 }
 
 nav .level-1 {
@@ -160,9 +153,9 @@ nav .level-6 {
     }
 }
 
-@media only screen and (max-width: 1248px) {
+@media only screen and (max-width: 1148px) {
     :root {
-        --max-content-width: calc(100vw - 128px);
+        --max-content-width: 100vw;
     }
 
     main {
@@ -183,7 +176,6 @@ nav .level-6 {
     }
 
     main {
-        padding: 24px;
         min-height: calc(100vh - 48px);
         margin: 0 auto;
     }
@@ -247,7 +239,8 @@ nav .level-6 {
 
 .article-container {
     max-width: var(--max-content-width);
-    margin: 2% auto;
+    margin: 2% 0;
+    padding: 24px;
 }
 
 article h1 {
@@ -257,7 +250,7 @@ article h1 {
 }
 
 article hr {
-    border-color: var(--primary-light);
+    border-color: var(--primary);
 }
 
 article img {
@@ -265,7 +258,7 @@ article img {
 }
 
 article blockquote {
-    border-left: 4px solid var(--primary-light);
+    border-left: 4px solid var(--primary);
     border-radius: 4px;
     margin: 20px 0 20px 20px;
     padding: 0.5em 20px 0.5em 25px;
@@ -454,7 +447,7 @@ li.flex-gap {
 
 .tooltip {
     position: relative;
-    text-decoration: underline dashed var(--primary-light);
+    text-decoration: underline dashed var(--primary);
     text-underline-offset: 2px;
 }
 
@@ -473,7 +466,7 @@ li.flex-gap {
     text-align: center;
     background-color: var(--background);
     color: var(--text-color);
-    border: 1px solid var(--primary-dark);
+    border: 1px solid var(--background-dark);
     font-weight: normal;
     content: attr(data-tooltip);
     border-radius: 4px;
@@ -529,7 +522,7 @@ pre:hover .copy-button {
 }
 
 .copy-button button {
-    background-color: var(--primary-light);
+    background-color: var(--surface-0);
     border: 1px solid var(--primary);
     border-radius: 4px;
     color: var(--primary);
@@ -537,14 +530,14 @@ pre:hover .copy-button {
 }
 
 .copy-button button:hover {
-    background-color: var(--button-hover);
+    background-color: var(--surface-1);
 }
 
 .copy-hash-btn {
     background-color: transparent;
     border: 0;
     margin: 0 4px;
-    color: var(--primary-light);
+    color: var(--primary);
     cursor: pointer;
 }
 
