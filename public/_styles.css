@@ -79,6 +79,14 @@ footer {
     height: 24px;
 }
 
+.header .thick-line {
+    margin-right: 18px;
+}
+
+footer .thick-line {
+    margin-left: 18px;
+}
+
 #scroll-observer {
     display: block;
     max-width: -webkit-fill-available;
@@ -184,8 +192,8 @@ nav div[role=menu] .level-6 {
         margin: 0 auto;
     }
 
-    .header {
-        max-width: calc(100vw - 24px);
+    .header, footer {
+        max-width: calc(100vw - 14px);
     }
 
     article iframe,
