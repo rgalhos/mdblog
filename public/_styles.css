@@ -123,32 +123,32 @@ nav {
     top: 84px;
 }
 
-nav div[role=menu] {
+nav div[role='menu'] {
     width: 275px;
     max-height: calc(100vh - 128px);
 }
 
-nav div[role=menu] .level-1 {
+nav div[role='menu'] .level-1 {
     font-weight: bold;
 }
 
-nav div[role=menu] .level-2 {
+nav div[role='menu'] .level-2 {
     margin-left: 2ch;
 }
 
-nav div[role=menu] .level-3 {
+nav div[role='menu'] .level-3 {
     margin-left: 4ch;
 }
 
-nav div[role=menu] .level-4 {
+nav div[role='menu'] .level-4 {
     margin-left: 6ch;
 }
 
-nav div[role=menu] .level-5 {
+nav div[role='menu'] .level-5 {
     margin-left: 8ch;
 }
 
-nav div[role=menu] .level-6 {
+nav div[role='menu'] .level-6 {
     margin-left: 10ch;
 }
 
@@ -192,7 +192,8 @@ nav div[role=menu] .level-6 {
         margin: 0 auto;
     }
 
-    .header, footer {
+    .header,
+    footer {
         max-width: calc(100vw - 14px);
     }
 
@@ -286,7 +287,8 @@ table {
     border-collapse: collapse;
 }
 
-table td, table th {
+table td,
+table th {
     border: 1px solid var(--background-light);
     padding: 8px;
 }
@@ -711,4 +713,26 @@ pre:hover .copy-button {
 
 .grow-1 {
     flex-grow: 1;
+}
+
+input[type='text'] {
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--surface-0);
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border-bottom: 2px solid var(--primary);
+    width: 100%;
+}
+
+input[type='text']:active,
+input[type='text']:focus {
+    outline: none;
+    border: 1px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
+}
+
+input[type='text']::placeholder {
+    font-style: italic;
 }
